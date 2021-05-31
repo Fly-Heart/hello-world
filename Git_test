@@ -2,4 +2,8 @@ aaaaaaaaa  ---- modify in github
 aaaabbbbbb
 cccccccc
 888888888888
+<<<<<<< HEAD
 code conclick2  ----modify in localhost again
+=======
+code conclick2  ----modify in github again
+>>>>>>> b93fcb270e23b9a92b15bfe80a46f8c1282726ae
