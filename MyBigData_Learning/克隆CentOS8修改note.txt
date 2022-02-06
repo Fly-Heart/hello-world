@@ -1,0 +1,18 @@
+克隆CentOS8需要修改以下地方:
+
+1.主机名
+设置hostname
+hostnamectl set-hostname "hadoop102" --static
+查看hostname
+hostnamectl
+
+
+2.修改IP地址
+vim /etc/sysconfig/network-scripts/ifcfg-ens33
+将/etc/sysconfig/network-scripts/ifcfg-ens33文件中的IP修改为想设置的IP地址，并删除其中的UUID
+
+3.vim /etc/hosts
+在/etc/hosts中添加相应的主机名和IP地址
+
+4.重启网卡
+nmcli connection down ens33 && nmcli connection up ens33

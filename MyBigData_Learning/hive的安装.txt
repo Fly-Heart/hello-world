@@ -1,0 +1,46 @@
+#setup for hive
+
+1.添加环境变量：vim /etc/profile
+export HIVE_HOME=/opt/module/hive-2.3.9
+export PATH=$HIVE_HOME/bin:$PATH
+
+2.进入安装目录下的 conf/ 目录，拷贝 Hive 的环境配置模板
+cp hive-env.sh.template hive-env.sh
+
+修改 hive-env.sh ，指定 Hadoop 的安装路径：
+HADOOP_HOME=/opt/module/hadoop-2.8.0
+
+
+--hive-site.xml
+3.新建 hive-site.xml 文件，内容如下，主要是配置存放元数据的 MySQL 的地址、驱动、用户名和密码等信息：
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+  <property>
+    <name>javax.jdo.option.ConnectionURL</name>
+    <value>jdbc:mysql://localhost:3306/hadoop_hive?createDatabaseIfNotExist=true</value>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionDriverName</name>
+    <value>com.mysql.jdbc.Driver</value>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionUserName</name>
+    <value>root</value>
+  </property>
+  <property>
+    <name>javax.jdo.option.ConnectionPassword</name>
+    <value>3306</value>
+  </property>
+</configuration>
+
+
+4.拷贝数据库驱动
+将 MySQL 驱动包拷贝到 Hive 安装目录的 lib 目录下
+
+
+5.初始化元数据库
+schematool -dbType mysql -initSchema
+
+6.启动
+hive

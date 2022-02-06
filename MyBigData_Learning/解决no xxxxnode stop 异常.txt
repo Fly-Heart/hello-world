@@ -1,0 +1,38 @@
+--sh -x /opt/module/hadoop-2.8.0/sbin/hadoop-daemon.sh --config /opt/module/hadoop-2.8.0/etc/hadoop --script /opt/module/hadoop-2.8.0/sbin/hdfs stop namenode
+/tmp/hadoop-richard--namenode.pid
+
+--sh -x /opt/module/hadoop-2.8.0/sbin/hadoop-daemon.sh --config /opt/module/hadoop-2.8.0/etc/hadoop --script /opt/module/hadoop-2.8.0/sbin/hdfs stop secondarynamenode
+/tmp/hadoop-richard--secondarynamenode.pid
+
+
+--sh -x /opt/module/hadoop-2.8.0/sbin/hadoop-daemon.sh --config /opt/module/hadoop-2.8.0/etc/hadoop --script /opt/module/hadoop-2.8.0/sbin/hdfs stop datanode
+/tmp/hadoop-richard--datanode.pid
+
+
+--sh -x /opt/module/hadoop-2.8.0/sbin/yarn-daemon.sh --config /opt/module/hadoop-2.8.0/etc/hadoop stop resourcemanager
+/tmp/yarn-richard--resourcemanager.pid
+
+--sh -x /opt/module/hadoop-2.8.0/sbin/yarn-daemon.sh --config /opt/module/hadoop-2.8.0/etc/hadoop stop nodemanager
+/tmp/yarn-richard--nodemanager.pid
+
+
+#解决no xxxxnode stop 异常--由于/tmp中的*.pid file 被删除导致stop-all.sh不能正常停止进程
+#方法一： 在/tmp中重新创建*.pid files
+jps|grep -w NameNode|cut -d" " -f1 > /tmp/hadoop-richard--namenode.pid \
+jps|grep -w SecondaryNameNode|cut -d" " -f1 > /tmp/hadoop-richard--secondarynamenode.pid \
+jps|grep -w DataNode|cut -d" " -f1 > /tmp/hadoop-richard--datanode.pid \
+jps|grep -w ResourceManager|cut -d" " -f1 > /tmp/yarn-richard--resourcemanager.pid \
+jps|grep -w NodeManager|cut -d" " -f1 > /tmp/yarn-richard--nodemanager.pid \
+
+
+jps|grep -w DataNode|cut -d" " -f1 > /tmp/hadoop-richard--datanode.pid
+jps|grep -w NodeManager|cut -d" " -f1 > /tmp/yarn-richard--nodemanager.pid
+
+#方法二：修改*.pid file存放目录
+--修改hadoop-daemon.sh和yarn-daemon.sh中以下变量
+HADOOP_PID_DIR=/opt/module/hadoop-2.8.0/ids
+YARN_PID_DIR=/opt/module/hadoop-2.8.0/ids
+
+
+
+

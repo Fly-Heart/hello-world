@@ -1,0 +1,14 @@
+实现远程服务器之间的免密通信：
+
+1. 到家目录，cd ~
+执行ssh-keygen来产生支持ssh协议登录主机的认证授权key
+
+
+2.执行以下命令，将 hadoop101 的公钥写到本机和远程机器的 ~/ .ssh/authorized_key 文件中，完成主机之间的信任通信
+ssh-copy-id -i ~/.ssh/id_rsa.pub richard-@hadoop101
+ssh-copy-id -i ~/.ssh/id_rsa.pub richard-@hadoop102
+ssh-copy-id -i ~/.ssh/id_rsa.pub richard-@hadoop103
+
+3.执行完以上命令即可实现受信任主机之间的免密通信
+eg. scp免密复制
+scp -r /opt/module/jdk1.8.0_201 richard-@hadoop102:/opt/module

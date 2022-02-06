@@ -1,0 +1,94 @@
+-- Linux上MySQL的rpm包安装
+--Step 1:
+[root@hadoop103 module]# rpm -ivh MySQL-server-5.5.49-1.linux2.6.x86_64.rpm
+警告：MySQL-server-5.5.49-1.linux2.6.x86_64.rpm: 头V3 DSA/SHA1 Signature, 密钥 ID 5072e1f5: NOKEY
+Verifying...                          ################################# [100%]
+准备中...                          ################################# [100%]
+正在升级/安装...
+   1:MySQL-server-5.5.49-1.linux2.6   ################################# [100%]
+220130 16:56:50 [Note] /usr/sbin/mysqld (mysqld 5.5.49) starting as process 86504 ...
+220130 16:56:50 [Note] /usr/sbin/mysqld (mysqld 5.5.49) starting as process 86511 ...
+
+PLEASE REMEMBER TO SET A PASSWORD FOR THE MySQL root USER !
+To do so, start the server, then issue the following commands:
+
+/usr/bin/mysqladmin -u root password 'new-password'
+/usr/bin/mysqladmin -u root -h hadoop103 password 'new-password'
+
+Alternatively you can run:
+/usr/bin/mysql_secure_installation
+
+which will also give you the option of removing the test
+databases and anonymous user created by default.  This is
+strongly recommended for production servers.
+
+See the manual for more instructions.
+
+Please report any problems at http://bugs.mysql.com/
+
+[root@hadoop103 module]# 
+
+=======================================================================================================
+--Step 2:
+[root@hadoop103 module]# rpm -ivh MySQL-client-5.5.49-1.linux2.6.x86_64.rpm
+警告：MySQL-client-5.5.49-1.linux2.6.x86_64.rpm: 头V3 DSA/SHA1 Signature, 密钥 ID 5072e1f5: NOKEY
+Verifying...                          ################################# [100%]
+准备中...                          ################################# [100%]
+正在升级/安装...
+   1:MySQL-client-5.5.49-1.linux2.6   ################################# [100%]
+[root@hadoop103 module]# 
+[root@hadoop103 module]# 
+[root@hadoop103 module]# whereis mysqladmin
+mysqladmin: /usr/bin/mysqladmin /usr/share/man/man1/mysqladmin.1.gz
+[root@hadoop103 module]# /usr/bin/mysqladmin -u root -h hadoop103 password '3306'
+/usr/bin/mysqladmin: connect to server at 'hadoop103' failed
+error: 'Can't connect to MySQL server on 'hadoop103' (111)'
+Check that mysqld is running on hadoop103 and that the port is 3306.
+You can check this by doing 'telnet hadoop103 3306'
+[root@hadoop103 module]# telnet hadoop103 3306
+
+
+--Step 3: 查看mysql服务状态，并开启服务
+service mysqld status
+service mysqld start
+
+
+Note:MySQL问题－Unit mysqld.service could not be found.
+1.find / -name mysql.server 2>/dev/null
+2.cp /usr/share/mysql/mysql.server /etc/init.d/mysqld
+
+
+--给root用户设置密码
+/usr/bin/mysqladmin -u root -h hadoop103 password '3306'
+/usr/bin/mysqladmin -u root password '3306'
+
+
+#################################################################################################################
+[root@hadoop103 init.d]# mysql -uroot -p
+Enter password: 
+ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+--以上问题是没有给localhost上的root用户设置密码
+
+
+=================================================================================================================
+--Linux上MySQL的rpm包卸载
+--step 1: 查看mysql服务状态，并关闭服务
+service mysqld status
+service mysqld start
+
+--step 2：查询mysql
+rpm -qa | grep -i mysql
+
+--step 3: 卸载安装包
+rpm -e --nodeps xxx
+
+--step 4: 查找mysql安装目录，并删除
+find / -name mysql 2>/dev/null | xargs rm -rf
+
+--step 5:查看mysql用户，并删除
+id mysql
+userdel mysql
+
+
+
+

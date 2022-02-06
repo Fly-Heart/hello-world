@@ -1,0 +1,5 @@
+CentOS8共享目录挂载命令：
+#Usage:	vmhgfs-fuse sharedir mountpoint [options]
+#-o allow_other         allow access to other users
+#-o nonempty            allow mounts over non-empty file/dir
+sudo vmhgfs-fuse .host:/ /mnt/hgfs -o allow_other -o nonempty

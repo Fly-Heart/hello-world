@@ -1,0 +1,12 @@
+--HADOOP_HOME and hadoop.home.dir are unset
+
+环境变量配置：
+HADOOP_HOME : D:\Hadoop_For_Windows\winutils-master\hadoop-2.8.1
+
+
+
+
+hadoop jar /home/richard-/study/bigdata/hadoop/Jar/BigData_WordCount-1.0-SNAPSHOT.jar \
+com.java.aia.WordCountApp \
+/home/richard-/study/bigdata/hadoop/InputFile/input2.txt /home/richard-/study/bigdata/hadoop/OutputFile;
+
