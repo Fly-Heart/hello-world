@@ -1,0 +1,34 @@
+1. cd /etc/yum.repos.d/
+
+2.备份
+cp CentOS-Linux-AppStream.repo CentOS-Linux-AppStream.repo-bak
+cp CentOS-Linux-BaseOS.repo-bak CentOS-Linux-BaseOS.repo 
+cp CentOS-Linux-Extras.repo CentOS-Linux-Extras.repo-bak
+
+3.
+注释mirrorlist
+sed  -i 's/^mirrorlist/#mirrorlist/' CentOS-Linux-Extras.repo CentOS-Linux-BaseOS.repo CentOS-Linux-AppStream.repo
+
+修改baseurl
+sed -i '/^#baseurl/abaseurl=https://mirrors.aliyun.com/centos/${releasever}-stream/AppStream/$basearch/os/' CentOS-Linux-Extras.repo CentOS-Linux-BaseOS.repo CentOS-Linux-AppStream.repo
+
+        https://mirrors.aliyun.com/centos/8-stream/AppStream/x86_64/os/
+baseurl=https://mirrors.aliyun.com/centos/$releasever-stream/AppStream/$basearch/os/
+
+sed -i '/^baseurl/d' CentOS-Linux-Extras.repo CentOS-Linux-BaseOS.repo CentOS-Linux-AppStream.repo
+
+
+diff CentOS-Linux-AppStream.repo-bak CentOS-Linux-AppStream.repo
+diff CentOS-Linux-Extras.repo-bak CentOS-Linux-Extras.repo
+diff CentOS-Linux-BaseOS.repo-bak CentOS-Linux-BaseOS.repo
+
+#optional
+4. dnf -y install epel-release
+
+yum -y install epel-release
+
+5. dnf clean all
+
+6. dnf makecache
+
+7. dnf repolist

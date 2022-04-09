@@ -1,0 +1,26 @@
+增加swap分区请参考：http://t.zoukankan.com/hftian-p-12019679.html
+
+
+1. 查看当前分区情况
+
+free -h
+
+2. 增加swap大小
+
+dd if=/dev/zero of=/var/swap bs=1024 count=3072000　　　　#增加3G空间
+
+3. 设置交换分区
+
+mkswap /var/swap
+
+4. 立即激活交换分区
+
+swapon /var/swap
+
+5. 添加系统引导时自启动运行
+
+vi /etc/fstab
+
+/var/swap　　　　swap　　　　swap　　defaults　　0　　0
+
+free -h　　　　　　#查看swap分区添加成功

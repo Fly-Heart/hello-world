@@ -70,6 +70,15 @@ ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: Y
 --以上问题是没有给localhost上的root用户设置密码
 
 
+@[TOC](ERROR! MySQL is not running, but lock file (/var/lock/subsys/mysql) exists)
+centos中启动、重启，或者查看mysql状态时报错
+ERROR! MySQL is not running, but lock file (/var/lock/subsys/mysql) exists
+
+解决
+删除var/lock/subsys/mysql下的mysql 文件
+
+
+
 =================================================================================================================
 --Linux上MySQL的rpm包卸载
 --step 1: 查看mysql服务状态，并关闭服务
